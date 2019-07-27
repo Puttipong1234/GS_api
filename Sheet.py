@@ -112,11 +112,18 @@ class GSdata():
 
 
 if __name__ == '__main__':
-    new_prod = GSdata('Book') ## ทำการสร้าง worksheet ใหม่ ของสินค้าชื่อ Book
-    new_prod.add_product_data('5','1002030','รับ','หนังสือจากPybott') ## บันทึกข้อมูล หนังสือใน worksheet book
-    new_prod.add_product_data('5','1005599','รับ','หนังสือจากPybott2') ## บันทึกข้อมูล หนังสือใน worksheet book
-    new_prod.add_product_data('5','1005588','จ่าย','หนังสือจากPybott2') ## บันทึกข้อมูล หนังสือใน worksheet book
-    new_prod.delete_product_data('1005599') ## ทำการลบข้อมูลออก ตามเลข ที่ใส่เข้าไป
+    #from Sheet import GSdata
+
+    ## ทำการสร้าง worksheet ใหม่ ของสินค้าชื่อ Book
+    new_prod = GSdata('Book') 
+    ## บันทึกข้อมูล หนังสือใน worksheet book
+    new_prod.add_product_data('5','1002030','รับ','หนังสือจากPybott')
+    ## บันทึกข้อมูล หนังสือใน worksheet book
+    new_prod.add_product_data('5','1005599','รับ','หนังสือจากPybott2') 
+    ## บันทึกข้อมูล หนังสือใน worksheet book
+    new_prod.add_product_data('5','1005588','จ่าย','หนังสือจากPybott2') 
+    ## ทำการลบข้อมูลออก ตามเลข ที่ใส่เข้าไป
+    new_prod.delete_product_data('1005599')
 
 
 
