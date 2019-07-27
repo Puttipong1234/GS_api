@@ -26,7 +26,7 @@ class GSdata():
 
         self.product_name = product_name
 
-        if not self.__Check_existing():
+        if self.__Check_existing():
             Feedback = 'ไม่มี Product {} อยู่ขณะนี้ ทำการสร้างตารางใหม่ ?(y/n)'.format(self.product_name)
             Input = input(Feedback)
             if Input == 'y':
@@ -37,11 +37,12 @@ class GSdata():
 
         ## check if product exist or not
     def __Check_existing(self):
-        for num,i in enumerate(self.worksheet):
-            if i == self.product_name:
-                self.worksheet = self.sheet.worksheet(i)
-                return True
-        return False
+        for i in self.worksheet:
+            print(i.title)
+            if i.title == self.product_name:
+                self.worksheet = self.sheet.worksheet(i.title)
+                return False
+        return True
 
 
         ## create new worksheet
@@ -90,14 +91,35 @@ class GSdata():
     # ลบสินค้า 
     def delete_product_data(self,product_number):
         cell = self.worksheet.find(str(product_number))
-        self.worksheet.delete_row(cell.row)
+        current_row_num = 'B'+str(cell.row)
+        self.worksheet.update_acell(current_row_num,'')
+
+        current_row_date = 'C'+str(cell.row)
+        self.worksheet.update_acell(current_row_date,'')
+
+        current_row_receive = 'D'+str(cell.row)
+        self.worksheet.update_acell(current_row_receive,'')
+
+        current_row_dis = 'E'+str(cell.row)
+        self.worksheet.update_acell(current_row_dis,'')
+
+        current_row_note = 'G'+str(cell.row)
+        self.worksheet.update_acell(current_row_note,'')
+
 
         return 'You have delete your products amount'
 
 
 
 if __name__ == '__main__':
-    GSdata('Book')
+    new_prod = GSdata('Book') ## ทำการสร้าง worksheet ใหม่ ของสินค้าชื่อ Book
+    new_prod.add_product_data('5','1002030','รับ','หนังสือจากPybott') ## บันทึกข้อมูล หนังสือใน worksheet book
+    new_prod.add_product_data('5','1005599','รับ','หนังสือจากPybott2') ## บันทึกข้อมูล หนังสือใน worksheet book
+    new_prod.add_product_data('5','1005588','จ่าย','หนังสือจากPybott2') ## บันทึกข้อมูล หนังสือใน worksheet book
+    new_prod.delete_product_data('1005599') ## ทำการลบข้อมูลออก ตามเลข ที่ใส่เข้าไป
+
+
+
     
     
 
