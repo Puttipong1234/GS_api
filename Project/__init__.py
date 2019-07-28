@@ -6,7 +6,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage, FollowEvent , QuickReply , QuickReplyButton , MessageAction
+    MessageEvent, TextMessage, TextSendMessage, FollowEvent , QuickReply , QuickReplyButton , MessageAction , ImageSendMessage
 )
 
 import os
@@ -58,48 +58,104 @@ def callback():
 
         if isinstance(event,MessageEvent):
             if event.message.text == 'รับสินค้า':
-                db.session.add(Session('รับสินค้า'))
+                cur_sess = Session.query.get(1)
+                cur_sess.session = 'รับสินค้า'
                 db.session.commit()
                 message = 'กรุณาใส่ รหัสสินค้า / ตามด้วยจำนวนสินค้า / หมายเหตุ(หากมี) ตัวอย่าง EX: 10111/10/สินค้าจากPybott'
                 line_bot_api.reply_message(
                     event.reply_token,TextSendMessage(text=message,quick_reply = quick_rep1)
                 )
-                return 200
+                return '200'
 
             elif event.message.text == 'จ่ายสินค้า':
-                db.session.add(Session('จ่ายสินค้า'))
+                cur_sess = Session.query.get(1)
+                cur_sess.session = 'จ่ายสินค้า'
                 db.session.commit()
                 message = 'กรุณาใส่ รหัสสินค้า / ตามด้วยจำนวนสินค้า / หมายเหตุ(หากมี) ตัวอย่าง EX: 10111/10/สินค้าจากPybott'
+
                 line_bot_api.reply_message(
                     event.reply_token,TextSendMessage(text=message,quick_reply = quick_rep1)
                 )
-                return 200
+                return '200'
             
-            elif Session.query.first() == 'รับสินค้า' :
+            elif Session.query.get(1).session == 'รับสินค้า' :
                 user_input = event.message.text.split('/')
                 if len(user_input) == 3:
                     GSdata().add_product_data(user_input[1],user_input[0],note = user_input[2])
                 else :
                     GSdata().add_product_data(user_input[1],user_input[0])
-                db.session.delete(Session.query.first())
+                cur_sess = Session.query.get(1)
+                cur_sess.session = 'none'
                 db.session.commit()
-                return 200
-            elif Session.query.first() == 'จ่ายสินค้า' :
+
+                message = 'คุณได้ทำการ รับสินค้าเข้ามา รหัส : {} / จำนวน : {} จัดเก็บเข้าฐานข้อมูลเรียบร้อย'.format(user_input[0],user_input[1])
+
+                line_bot_api.reply_message(
+                    event.reply_token,TextSendMessage(text=message,quick_reply = quick_rep1)
+                )
+
+                return '200'
+
+
+            elif Session.query.get(1).session == 'จ่ายสินค้า' :
                 user_input = event.message.text.split('/')
                 if len(user_input) == 3:
                     GSdata().add_product_data(user_input[1],user_input[0],method = 'จ่าย',note = user_input[2])
                 else :
                     GSdata().add_product_data(user_input[1],user_input[0],method = 'จ่าย')
-                db.session.delete(Session.query.first())
+                cur_sess = Session.query.get(1)
+                cur_sess.session = 'none'
                 db.session.commit()
-                return 200
+
+                message = 'คุณได้ทำการ จ่ายสินค้าออกไป รหัส : {} / จำนวน : {} จัดเก็บเข้าฐานข้อมูลเรียบร้อย'.format(user_input[0],user_input[1])
+
+                line_bot_api.reply_message(
+                    event.reply_token,TextSendMessage(text=message,quick_reply = quick_rep1)
+                )
+
+                return '200'
 
             elif event.message.text == 'ยกเลิกรายการ' :
                 user_input = event.message.text.split('/')
+
+                message = 'คุณได้ทำการยกเลิกรายการ กรุณาเลือกเมนูใหม่'
+
+                line_bot_api.reply_message(
+                    event.reply_token,TextSendMessage(text=message,quick_reply = quick_rep1)
+                )
                 
-                db.session.delete(Session.query.first())
+                cur_sess = Session.query.get(1)
+                cur_sess.session = 'none'
                 db.session.commit()
-                return 200
+                return '200'
+
+            elif event.message.text == 'สรุปนาฬิกาใคร' :
+                
+                message = 'ด.ช.ดู่ บริการจัดการสินค้า กรุณาเลือกเมนูได้เลยครับ'
+                line_bot_api.reply_message(
+                event.reply_token,ImageSendMessage('https://www.khaosod.co.th/wp-content/uploads/2017/12/%E0%B9%84%E0%B8%A1%E0%B9%88%E0%B8%95%E0%B8%AD%E0%B8%9A%E0%B8%99%E0%B8%B0-%E0%B8%99%E0%B8%B2%E0%B8%AC%E0%B8%B4%E0%B8%81%E0%B8%B2%E0%B8%AB%E0%B8%99%E0%B9%88%E0%B8%B0-696x403.jpg','https://www.khaosod.co.th/wp-content/uploads/2017/12/%E0%B9%84%E0%B8%A1%E0%B9%88%E0%B8%95%E0%B8%AD%E0%B8%9A%E0%B8%99%E0%B8%B0-%E0%B8%99%E0%B8%B2%E0%B8%AC%E0%B8%B4%E0%B8%81%E0%B8%B2%E0%B8%AB%E0%B8%99%E0%B9%88%E0%B8%B0-696x403.jpg',quick_rep1)
+            )
+                return '200'
+            
+            elif event.message.text == 'ไปที่ GoogleSheet' :
+                
+                message = 'ด.ช. ตู่ จะนำทางท่านไปที่ GoogleSheet และทำการเปลี่ยนข้อมูลของตาราง ให้เป็นข้อมูล User profile ของท่าน กรุณากด Link https://docs.google.com/spreadsheets/d/1QlhBSROcdRll-tqX3zNaL4KQqIOLlRE0rwIQETNGUC8/edit?usp=sharing'
+                line_bot_api.reply_message(
+                event.reply_token,TextSendMessage(text=message,quick_reply = quick_rep1)
+            )
+                return '200'
+            
+            else :
+                message = 'ยินดีต้อนรับสู่บริการ ด.ช.ดู่ บริการจัดการสินค้า กรุณาเลือกเมนูได้เลยครับ'
+                line_bot_api.reply_message(
+                event.reply_token,TextSendMessage(text=message,quick_reply = quick_rep1)
+            )
+                cur_sess = Session.query.get(1)
+                cur_sess.session = 'none'
+                db.session.commit()
+                return '200'
+
+
 
 
         if isinstance(event,FollowEvent):
@@ -107,7 +163,8 @@ def callback():
             line_bot_api.reply_message(
                 event.reply_token,TextSendMessage(text=message,quick_reply = quick_rep1)
             )
-            return 200
+            GSdata().update_stock()
+            return '200'
 
 
     

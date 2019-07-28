@@ -60,6 +60,19 @@ class GSdata():
 
         self.worksheet.update_acell(self.tax_indentity_cell,tax_iden)
 
+    def update_stock(self,Manager_name = 'Pybott',address_name= 'bangkok',tax_iden= '10010'):
+    
+        ## set current worksheet
+        self.worksheet = self.sheet.worksheet(self.product_name)
+
+        self.worksheet.update_acell(self.ManagerName_cell,Manager_name)
+
+        self.worksheet.update_acell(self.place_cell,address_name)
+
+        self.worksheet.update_acell(self.product_name_cell,self.product_name)
+
+        self.worksheet.update_acell(self.tax_indentity_cell,tax_iden)
+
 
         ## add new incoming data
     def add_product_data(self,number_of_item ,product_number , method = 'รับ',note = None):
@@ -111,19 +124,19 @@ class GSdata():
 
 
 
-if __name__ == '__main__':
-    #from Sheet import GSdata
+# if __name__ == '__main__':
+#     #from Sheet import GSdata
 
-    ## ทำการสร้าง worksheet ใหม่ ของสินค้าชื่อ Book
-    new_prod = GSdata('Book') 
-    ## บันทึกข้อมูล หนังสือใน worksheet book
-    new_prod.add_product_data('5','1002030','รับ','หนังสือจากPybott')
-    ## บันทึกข้อมูล หนังสือใน worksheet book
-    new_prod.add_product_data('5','1005599','รับ','หนังสือจากPybott2') 
-    ## บันทึกข้อมูล หนังสือใน worksheet book
-    new_prod.add_product_data('5','1005588','จ่าย','หนังสือจากPybott2') 
-    ## ทำการลบข้อมูลออก ตามเลข ที่ใส่เข้าไป
-    new_prod.delete_product_data('1005599')
+#     ## ทำการสร้าง worksheet ใหม่ ของสินค้าชื่อ Book
+#     new_prod = GSdata('Book') 
+#     ## บันทึกข้อมูล หนังสือใน worksheet book
+#     new_prod.add_product_data('5','1002030','รับ','หนังสือจากPybott')
+#     ## บันทึกข้อมูล หนังสือใน worksheet book
+#     new_prod.add_product_data('5','1005599','รับ','หนังสือจากPybott2') 
+#     ## บันทึกข้อมูล หนังสือใน worksheet book
+#     new_prod.add_product_data('5','1005588','จ่าย','หนังสือจากPybott2') 
+#     ## ทำการลบข้อมูลออก ตามเลข ที่ใส่เข้าไป
+#     new_prod.delete_product_data('1005599')
 
 
 
