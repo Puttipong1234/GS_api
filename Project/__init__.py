@@ -29,6 +29,22 @@ channel_access_token = 'Lry+9veBfCmgtFB43jv8ir6wGqNgLw/rA6r89OA+cSAnjyKlighcNjZp
 line_bot_api = LineBotApi(channel_access_token)
 parser = WebhookParser(channel_secret)
 
+def send_flex(reply_token,file_data):
+    
+    LINE_API = 'https://api.line.me/v2/bot/message/reply'
+
+    Authorization = 'Bearer {}'.format(channel_access_token)
+
+    headers = {'Content-Type': 'application/json; charset=UTF-8',
+  'Authorization': Authorization}
+
+    file_data['replyToken'] = reply_token
+    #### dumps file จาก dict ให้เป็น json
+    file_data = json.dumps(file_data)
+    r = requests.post(LINE_API, headers=headers, data=file_data) # ส่งข้อมูล
+
+    return 'OK'
+
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -144,6 +160,23 @@ def callback():
                 event.reply_token,TextSendMessage(text=message,quick_reply = quick_rep1)
             )
                 return '200'
+
+            elif event.message.text == 'test_01' :
+                
+                message = ['book','hello']
+                line_bot_api.reply_message(
+                event.reply_token,TextSendMessage(text=message,quick_reply = quick_rep1)
+            )
+                return '200'
+
+            elif event.message.text == 'test_02' :
+                from Project.flex_data import flex_data
+                send_flex(event.reply_token,flex_data)
+                
+            
+                return '200'
+
+
             
             else :
                 message = 'ยินดีต้อนรับสู่บริการ ด.ช.ดู่ บริการจัดการสินค้า กรุณาเลือกเมนูได้เลยครับ'
@@ -167,4 +200,5 @@ def callback():
             return '200'
 
 
-    
+
+
