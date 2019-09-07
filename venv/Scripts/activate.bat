@@ -1,6 +1,6 @@
 @echo off
 
-set "VIRTUAL_ENV=C:\Users\Diseno2b\Desktop\Line_Chatbot_Project\03_LineChatbot_Gsheet\venv"
+set "VIRTUAL_ENV=C:\Users\SAMPLE\Desktop\LineChatBot\Line_Chatbot_Project\03_LineChatbot_Gsheet\venv"
 
 if defined _OLD_VIRTUAL_PROMPT (
     set "PROMPT=%_OLD_VIRTUAL_PROMPT%"

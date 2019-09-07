@@ -1,0 +1,15 @@
+Metadata-Version: 1.1
+Name: pypromptpay
+Version: 0.4
+Summary: PromptPay QR code in Python
+Home-page: https://github.com/wannaphongcom/pypromptpay
+Author: Wannaphong Phatthiyaphaibun
+Author-email: wannaphong@kkumail.com
+License: Apache Software License 2.0
+Description: UNKNOWN
+Keywords: promptpay
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: Implementation

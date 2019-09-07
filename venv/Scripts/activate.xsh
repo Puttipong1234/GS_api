@@ -28,7 +28,7 @@ def _deactivate(args):
 _deactivate(["nondestructive"])
 aliases["deactivate"] = _deactivate
 
-$VIRTUAL_ENV = r"C:\Users\Diseno2b\Desktop\Line_Chatbot_Project\03_LineChatbot_Gsheet\venv"
+$VIRTUAL_ENV = r"C:\Users\SAMPLE\Desktop\LineChatBot\Line_Chatbot_Project\03_LineChatbot_Gsheet\venv"
 
 $_OLD_VIRTUAL_PATH = $PATH
 $PATH = $PATH[:]
