@@ -10,6 +10,8 @@ from linebot.models import (
 )
 
 import os
+import requests
+import json
 
 
 from Project.Sheet import GSdata
