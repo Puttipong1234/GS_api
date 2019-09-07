@@ -47,6 +47,11 @@ def send_flex(reply_token,file_data):
 
     return 'OK'
 
+def SetMenuMessage_Object(Message_data,Quick_Reply = False):
+    file_data = {"replyToken":'', "messages": []}
+    data = file_data['messages'].append(Message_data)
+    return file_data
+
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -173,6 +178,7 @@ def callback():
 
             elif event.message.text == 'test_02' :
                 from Project.flex_data import flex_data
+                flex_data = SetMenuMessage_Object(flex_data)
                 send_flex(event.reply_token,flex_data)
                 
             
